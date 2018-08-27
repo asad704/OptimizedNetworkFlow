@@ -1,5 +1,13 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import pandas as pd
+
+#edit your file path
+wl = pd.read_csv("C:/Users/AsadHashmi/Documents/CIC CFC/WaterLevel.csv")
+mf = pd.read_csv("C:/Users/AsadHashmi/Documents/CIC CFC/MainFlows.csv")
+
+##Import DamData and DamDataNew
+
 
 class Reserve:
     
@@ -16,39 +24,64 @@ class Reserve:
         
     def describe(self):
         
-        return '{} {} {} {} {} {} {} {}'.format(self.node_id,self.name,self.capacity,self.level,self.inflow,self.outflow,self.long,self.lat)
-
+        #return '{} {} {} {} {} {} {} {}'.format(self.node_id,self.name,self.capacity,self.level,self.inflow,self.outflow,self.long,self.lat)
+        print(self.node_id,self.name,self.capacity,self.level,self.inflow,self.outflow,self.long,self.lat)
+    
+    
+    def rain(self,level):
+        
+        self.level += level
+        self.describe()
+        if self.level >= self.capacity * 0.9:
+            print("Overflow Warning at " + self.name)
+            return;
+        
+    def spillWay(self):    
+        print(self.node_id + 1)
+        return;
         
 
 options = {
-'node_color' : 'red',
-'node_size' : 500,
+'node_color' : 'green',
+'node_size' : 100,
 'width' : 3,
 'with_labels' : True
 
 }
 
-res1 = Reserve(1,"Tarbela Dam",1500,0,249.0,120.5,38.088,72.699)
-res2 = Reserve(2,"Kalabagh Dam",950,0,258.3,251.7,32.956,71.614)
-res3 = Reserve(3,"Chashma Dam",950,0,318.2,300.4,32.436,71.38)
-res4 = Reserve(4,"Tunsa Dam",1000,0,312.9,293.4,25.132,98.126)
-res5 = Reserve(5,"Guddu",1200,0,219.9,182.9,28.392,69.772)
+res = []
+for i in range(len(mf)):
+    for j in range(len(wl)):
+        if(mf.iloc[:,2][i] == wl.iloc[:,2][j]):
+            temp = []
+            temp =  Reserve(j+1,
+                            mf.iloc[:,2][i],
+                            float(mf.iloc[:,3][i]),
+                            float(wl.iloc[:,3][j]),
+                            float(mf.iloc[:,4][i]),
+                            float(mf.iloc[:,5][i]),
+                            float(mf.iloc[:,12][i]),
+                            float(mf.iloc[:,13][i]))
+            res.append(temp)       
 
+    
+#Print Loop for all dams information
+#for i in range(len(res)):
+#    res[i].describe()
+    
 
-print(res1.describe())
-print(res2.describe())
-print(res3.describe())
-print(res4.describe())
-print(res5.describe())
-
-
+    
+res[0].rain(1200)
+res[0].spillWay()
+    
 flow=nx.DiGraph() # make a directed graph (digraph)
 
-flow.add_nodes_from([res1.name,res2.name,res3.name,res4.name,res5.name])
-flow.add_edges_from([(res1.name,res2.name),
-                     (res2.name,res3.name),
-                     (res3.name,res4.name),
-                     (res4.name,res5.name)],weight=1.0)
+flow.add_nodes_from([res[0].name,res[1].name,res[2].name,res[3].name,res[4].name])
+
+flow.add_edges_from([(res[0].name,res[1].name),
+                     (res[1].name,res[2].name),
+                     (res[2].name,res[3].name),
+                     (res[3].name,res[4].name)],weight=1.0)
 
 
 
