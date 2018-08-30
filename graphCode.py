@@ -58,25 +58,6 @@ sinktemp = client[db_name[2]]
 save_file = False 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# In[258]:
-
-
-
-
-
 class Reserve:
 
     
@@ -119,9 +100,7 @@ class Reserve:
 
     
 
-    def rain(self,level):
-
-        
+    def rain(self,level): 
 
         self.level += level
 
@@ -136,9 +115,6 @@ class Reserve:
             return;
 
         
-
-    
-
     def checkCap(self,res):    
 
         if res[self.node_id].level <= res[self.node_id].capacity * 0.5:
@@ -156,9 +132,6 @@ class Reserve:
             return;
 
        
-
-
-
 options = {
 
 'node_color' : 'green',
@@ -237,30 +210,7 @@ for i in range(len(mainflow)):
 
             res.append(temp)       
 
-
-
-    
-
-
-
-
-
-# In[270]:
-
-
-
-
-
-
-
-
-
-# In[269]:
-
-
-
-
-
+            
 #Print Loop for all dams information
 
 for i in range(len(res)):
