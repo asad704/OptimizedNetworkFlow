@@ -27,6 +27,13 @@ client = Cloudant("55a48b3d-bd73-4b30-bd83-f94f512f3796-bluemix", "5ee4b592bde6b
 client.connect()
 
 
+
+
+
+
+
+
+
 # In[258]:
 
 
@@ -87,7 +94,6 @@ options = {
 sdata = Result(sinkdb.all_docs, include_docs=True)
 mflow = Result(mainflowdb.all_docs, include_docs=True)
 wlevel= Result(waterleveldb.all_docs, include_docs=True)
-weightdata1 = Result(weightdb.all_docs, include_docs=True)
 
 
 # In[273]:
@@ -114,7 +120,6 @@ def to_dict(y):
 sinkdata={}
 mainflow ={}
 waterlevel = {}
-weightdata ={}
 
 
 # In[262]:
@@ -144,18 +149,18 @@ sinkdata
 res = []
 for i in range(len(mainflow)):
     for j in range(len(waterlevel)):
-        if(mainflow[i]['nodeField'] == waterlevel[j]['Namefield']):
+        if(mainflow[i]['NodeField'] == waterlevel[j]['Namefield']):
             temp = []
             temp =  Reserve(j+1,                     #node_id
-                            mainflow[i]['nodeField'], #name
-                            float(mainflow[i]['capacityField']),  #capacity
+                            mainflow[i]['NodeField'], #name
+                            float(mainflow[i]['CapacityField']),  #capacity
                             float(waterlevel[j]['WaterLevelfield']),  #level
-                            float(mainflow[i]['inFlowField']), #inflow
+                            float(mainflow[i]['In FlowField']), #inflow
                             350,  #outflow cap
-                            float(mainflow[i]['outFlowField']),  #outflow
+                            float(mainflow[i]['OutFlowField']),  #outflow
                             350,      #outflow cap
-                            float(mainflow[i]['longitudeField']),  #long
-                            float(mainflow[i]['latitudeField']),   #lat
+                            float(mainflow[i]['LongitudeField']),  #long
+                            float(mainflow[i]['LatitudeField']),   #lat
                             float(mainflow[i]['weightField']))     #weight
                             
             res.append(temp)       
@@ -166,7 +171,6 @@ for i in range(len(mainflow)):
 # In[270]:
 
 
-mainflow[0]['nodeField']
 
 
 # In[269]:
