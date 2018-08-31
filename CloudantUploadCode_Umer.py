@@ -20,29 +20,30 @@ if mainflowdb.exists():
 df = read_csv(r"C:\Users\UmerFarooq\Desktop\Umer Farooq2_z63fm75v\CallForCode\IBMCloudant\csv\MainFlows.csv")
 mainflow=df.values
 mainflow
-
 for document in mainflow:
-    RowID = document[0]
-    NodeID = document[1]
-    Node = document[2]
-    Capacity = document[3]
-    Inflow= document[4]
-    Outflow = document[5]
-    Flow = document[6]
-    Dam =document[7]
-    Cannal= document[8]
-    Barrage= document[9]
-    Field= document[10]
-    Merger= document[11]
-    Longitude= document[12]
+_id = document[0]
+    RowID = document[1]
+    NodeID = document[2]
+    Node = document[3]
+    Capacity = document[4]
+    Inflow= document[5]
+    Outflow = document[6]
+    Flow = document[7]
+    Dam =document[8]
+    Cannal= document[9]
+    Barrage= document[10]
+    Field= document[11]
+    Merger= document[12]
     Latitude= document[13]
-    ConnectedFrom = document[14]
-    ConnectedTo= document[15]
-    StartNode= document[16]
-    SinkNode= document[17]
-    Weight= document[18]
+    Longitude=document[14]
+    ConnectedFrom = document[15]
+    ConnectedTo= document[16]
+    StartNode= document[17]
+    SinkNode= document[18]
+    Weight= document[19]
     
     jsonDocument = {
+        "_id":str(_id),
         "RowIDField":RowID,
         "NodeIDField":NodeID,
         "NodeField":Node,
@@ -55,14 +56,16 @@ for document in mainflow:
         "BarrageField":Barrage,
         "FieldField":Field,
         "MergerField":Merger ,
-        "LongitudeField":Longitude,
         "LatitudeField":Latitude,
+        "LongitudeField":Longitude,
         "ConnectedFromField":ConnectedFrom,
         "ConnectedToField":ConnectedTo,
         "StartNodeField":StartNode,
         "SinkNodeField":SinkNode,
         "weightField":Weight
-    }
+     }
+
+    
     newDocument = mainflowdb.create_document(jsonDocument)
 
     if newDocument.exists():
@@ -82,17 +85,20 @@ waterlevel=df.values
 print(waterlevel)
 
 for document in waterlevel:
-    RowID=document[0]
-    Node=document[1]
-    Name=document[2]
-    WaterLevel=document[3]
+    _id = document[0]
+    RowID=document[1]
+    Node=document[2]
+    Name=document[3]
+    WaterLevel=document[4]
 
     
     jsonDocument = {
+    '_id':str(_id),
     'RowIDfield':RowID,
     'Nodefield':Node,
     'Namefield':Name,
     'WaterLevelfield':WaterLevel
+
 
 
     }
@@ -115,21 +121,23 @@ sink=df.values
 print(sink)
 
 for document in sink:
-    RowID=document[0]
-    Node=document[1]
-    Sink=document[2]
-    Population=document[3]
-    IndustrailLandProvided=document[4]
-    MaximunCapacity=document[5]
+     _id = document[0]
+    RowID=document[1]
+    Node=document[2]
+    Sink=document[3]
+    Population=document[4]
+    IndustrailLandProvided=document[5]
+    MaximunCapacity=document[6]
 
     
     jsonDocument = {
+    '_id' : str(_id),
     'RowIDfield':RowID,
     'Nodefield':Node,
     'Sinkfield':Sink,
     'Populationfield':Population,
     'IndustrailLandProvidedfield':IndustrailLandProvided,
-    'MaximunCapacityfield':MaximunCapacity,
+    'MaximunCapacityfield':MaximunCapacity
 
 
     }
