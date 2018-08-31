@@ -10,7 +10,7 @@ The application is hosted on BlueMix Cloud and can be visited here
 
 https://dashboardapp.au-syd.mybluemix.net/
 
-The dashboard works perfectly on Internet Explorer.
+The dashboard is tested and works perfectly on Internet Explorer.
 
 # Limitations
 
