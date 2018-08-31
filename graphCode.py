@@ -1,6 +1,8 @@
 
+
 print("Loading...")
 
+import requests
 
 from cloudant.client import Cloudant
 
@@ -146,7 +148,26 @@ options = {
 
 }
 
-
+#weather API
+def get_weather(lat,long):
+    username = '5deff39b-b3ba-4731-a0f3-ee1ee2352868'
+    password = 'tW04Lpv1CE'
+    watsonUrl = 'https://twcservice.au-syd.mybluemix.net/api/weather/v1/geocode/{}/{}/forecast/hourly/48hour.json'.format(lat,long)
+ 
+    try:
+        r = requests.get(watsonUrl,auth=(username,password))
+        return r.text
+    except:
+        return False
+    
+    
+def display_weather(results):
+    data = {}
+    i =0
+    for x in results['forecasts']:
+        i = i + 1
+        data[i] = [x['pop'],x['qpf'],x['severity'],x['phrase_32char']]
+    return data
 
 
 
@@ -200,9 +221,9 @@ for i in range(len(mainflow)):
 
                             350,      #outflow cap
 
-                            float(mainflow[i]['LongitudeField']),  #long
+                            float(mainflow[i]['LongitudeField']),  
 
-                            float(mainflow[i]['LatitudeField']),   #lat
+                            float(mainflow[i]['LatitudeField']),   
 
                             float(mainflow[i]['weightField']))     #weight
 
@@ -257,6 +278,21 @@ flow.add_edges_from([(res[0].name,res[1].name),
 
 #nx.draw_shell(DG, nlist=[range(5,10), range(5)], **options)
 
+#weather data retrieval
+weather = {}
+results = []
+resultstemp = []
+for i in range(len(mainflow)):
+    long = round(float(mainflow[i]['LongitudeField']),3)
+    lat  = round(float(mainflow[i]['LatitudeField']),3)
+    results.append(get_weather(lat, long))
+        
+    if results[i] != False:
+        resultstemp.append(json.loads(str(results[i])))
+        print(mainflow[i]['NodeField'])
+        weather[mainflow[i]['NodeField']] =  display_weather(resultstemp[i])            
+    else:
+        print('Something went wrong :-(') 
 
 
 nx.draw_shell(flow,**options)
